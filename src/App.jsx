@@ -1,6 +1,14 @@
+import PromptForm from "./components/PromptForm.jsx"
+
 function App() {
+
+  const handlePromptSubmit = prompt => console.log(prompt)
+
   return (
-    <h1>Smart Study Buddy</h1>
+    <main>
+      <h1>Smart Study Buddy</h1>
+      <PromptForm onSubmit={handlePromptSubmit} />
+    </main>
   )
 }
 
