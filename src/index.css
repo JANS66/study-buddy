@@ -18,3 +18,9 @@
     color: green;
     font-weight: bold;
 }
+
+.timestamp {
+    font-size: 0.8rem;
+    color: gray;
+    margin-left: 0.5rem;
+}
