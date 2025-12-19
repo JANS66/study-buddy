@@ -1,26 +1,129 @@
-.chat p {
-    margin: 0.5rem 0;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
 }
 
-.chat strong {
-    color: #222;
+main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
-.chat em {
-    color: gray;
+.chat {
+    background-color: #1e1e1e;
+    padding: 1rem;
+    border-radius: 10px;
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-top: 1rem;
 }
 
 .user {
-    color: blue;
+    background-color: #2a2a2a;
+    color: #c5e1a5;
+    padding: 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    text-align: right;
 }
 
 .ai {
-    color: green;
-    font-weight: bold;
+    background-color: #2a2a2a;
+    color: #81d4fa;
+    padding: 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    text-align: left;
 }
 
 .timestamp {
-    font-size: 0.8rem;
-    color: gray;
+    font-size: 0.7rem;
+    color: #999;
     margin-left: 0.5rem;
+}
+
+form {
+    display: flex;
+    margin-top: 1rem;
+}
+
+input {
+    flex: 1;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-right: 0.5rem;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #3f51b5;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #303f9f;
+}
+
+.chat {
+    overflow-y: auto;
+    max-height: 70vh;
+    padding: 1rem;
+}
+
+.chat-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: flex-start;
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 0.5rem;
+    }
+
+    .chat {
+        padding: 0.5rem;
+    }
+
+    input {
+        font-size:0.9rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+
+    .chat-actions button {
+        flex: 1;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+    main {
+        padding: 1rem;
+    }
+
+    .chat {
+        max-height: 65vh;
+    }
+}
+
+@media (min-width: 1025px) {
+    main {
+        padding: 2rem;
+    }
+
+    .chat {
+        max-height: 70vh;
+    }
 }

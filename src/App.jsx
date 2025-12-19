@@ -80,8 +80,10 @@ function App() {
     <main>
       <h1>Smart Study Buddy</h1>
       <PromptForm onSubmit={handlePromptSubmit} />
-      <button onClick={() => setSessionHistory([])}>Clear Chat</button>
-      <button onClick={downloadChat}>Download Chat</button>
+      <div className="chat-actions">
+        <button onClick={() => setSessionHistory([])}>Clear Chat</button>
+        <button onClick={downloadChat}>Download Chat</button>
+      </div>
       <div className="chat">
         {sessionHistory.map((message, index) => (
           <p key={index} className={message.role === `user` ? `user` : `ai`}>
