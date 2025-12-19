@@ -5,32 +5,43 @@ import "./index.css"
 
 function App() {
 
-  const [currentPrompt, setCurrentPrompt] = React.useState(``)
-  const [currentResponse, setCurrentResponse] = React.useState(``)
   const [isLoading, setIsLoading] = React.useState(false)
+  const [sessionHistory, setSessionHistory] = React.useState([])
+  const chatEndRef = React.useRef(null) // Gives direct access to a DOM node
 
   async function handlePromptSubmit(prompt) {
-    setCurrentPrompt(prompt)
-    setCurrentResponse(``)
     setIsLoading(true)
+
+    setSessionHistory(previous => [...previous, { role: `user`, content: prompt }])
+
     try {
       const text = await getAIResponse(prompt)
-      setCurrentResponse(text)
+      setSessionHistory(previous => [...previous, { role: `ai`, content: text }])
     } catch {
-      setCurrentResponse(`Error calling AI`)
+      setSessionHistory(previous => [...previous, { role: `ai`, content: `Error calling AI` }])
     } finally {
       setIsLoading(false)
     }
   }
+
+  React.useEffect(() => { // Reacts to updates in messages or loading,
+    // and smoothly scrolls chat to bottom
+    chatEndRef.current?.scrollIntoView({ behavior: `smooth` })
+  }, [sessionHistory, isLoading])
 
   return (
     <main>
       <h1>Smart Study Buddy</h1>
       <PromptForm onSubmit={handlePromptSubmit} />
       <div className="chat">
-        {currentPrompt && <p><strong>You:</strong> {currentPrompt}</p>}
+        {sessionHistory.map((message, index) => (
+          <p key={index} className={message.role === `user` ? `user` : `ai`}>
+            <strong>{message.role === `user` ? `You` : `AI`}:</strong> {message.content}
+          </p>
+        ))}
+
         {isLoading && <p><em>Thinking...</em></p>}
-        {currentResponse && <p><strong>AI:</strong> {currentResponse}</p>}
+        <div ref={chatEndRef} />
       </div>
     </main>
   )

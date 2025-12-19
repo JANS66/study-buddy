@@ -9,3 +9,12 @@
 .chat em {
     color: gray;
 }
+
+.user {
+    color: blue;
+}
+
+.ai {
+    color: green;
+    font-weight: bold;
+}
