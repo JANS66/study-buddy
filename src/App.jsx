@@ -55,11 +55,33 @@ function App() {
 
   const formatTime = date => date.toLocaleTimeString([], { hour: `2-digit`, minute: `2-digit`, month: `short`, day: `numeric` })
 
+  const downloadChat = () => { // Convert sessionHistory array into a single plain text string
+    // Format each message as `You [HH:MM]: message` or `AI [HH:MM]: message`
+    const text = sessionHistory.map(message => {
+      const time = message.time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+      return `${message.role === `user` ? `You` : `AI`} [${time}]: ${message.content}`
+    })
+      // Join all messages with newline characters so each message appears on a new line
+      .join(`\n`)
+
+    const blob = new Blob([text], { type: `text/plain` })
+    const url = URL.createObjectURL(blob)
+
+    const anchor = document.createElement(`a`)
+    anchor.href = url
+    anchor.download = `chat_history.txt`
+    anchor.click()
+
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <main>
       <h1>Smart Study Buddy</h1>
       <PromptForm onSubmit={handlePromptSubmit} />
       <button onClick={() => setSessionHistory([])}>Clear Chat</button>
+      <button onClick={downloadChat}>Download Chat</button>
       <div className="chat">
         {sessionHistory.map((message, index) => (
           <p key={index} className={message.role === `user` ? `user` : `ai`}>
