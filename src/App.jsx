@@ -6,7 +6,18 @@ import "./index.css"
 function App() {
 
   const [isLoading, setIsLoading] = React.useState(false)
-  const [sessionHistory, setSessionHistory] = React.useState([])
+  const [sessionHistory, setSessionHistory] = React.useState(() => { // Using the lazy initializer function () => {} ensures it only reads localStorage once on mount
+    const saved = localStorage.getItem(`sessionHistory`) // Gets saved JSON string
+    if (saved) {
+      const parsed = JSON.parse(saved) // Converts it back to JS array
+      return parsed.map(message => ({
+        ...message,
+        time: new Date(message.time) // Convert string back to Date
+      }))
+    }
+    return [] // If nothing is saved yet, default to []
+  })
+
   const chatEndRef = React.useRef(null) // Gives direct access to a DOM node
 
   async function handlePromptSubmit(prompt) {
@@ -38,12 +49,17 @@ function App() {
     chatEndRef.current?.scrollIntoView({ behavior: `smooth` })
   }, [sessionHistory, isLoading])
 
+  React.useEffect(() => {
+    localStorage.setItem(`sessionHistory`, JSON.stringify(sessionHistory))
+  }, [sessionHistory])
+
   const formatTime = date => date.toLocaleTimeString([], { hour: `2-digit`, minute: `2-digit`, month: `short`, day: `numeric` })
 
   return (
     <main>
       <h1>Smart Study Buddy</h1>
       <PromptForm onSubmit={handlePromptSubmit} />
+      <button onClick={() => setSessionHistory([])}>Clear Chat</button>
       <div className="chat">
         {sessionHistory.map((message, index) => (
           <p key={index} className={message.role === `user` ? `user` : `ai`}>
