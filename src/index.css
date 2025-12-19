@@ -1,0 +1,11 @@
+.chat p {
+    margin: 0.5rem 0;
+}
+
+.chat strong {
+    color: #222;
+}
+
+.chat em {
+    color: gray;
+}
